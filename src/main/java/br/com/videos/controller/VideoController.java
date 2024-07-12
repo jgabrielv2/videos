@@ -36,9 +36,18 @@ public class VideoController {
         return ResponseEntity.ok(videoService.exibirPorId(id));
     }
 
+//    @GetMapping
+//    public ResponseEntity<List<VideoResponseDto>> exibirTodos() {
+//        return ResponseEntity.ok(videoService.exibirTodos());
+//    }
+
     @GetMapping
-    public ResponseEntity<List<VideoResponseDto>> exibirTodos() {
-        return ResponseEntity.ok(videoService.exibirTodos());
+    public ResponseEntity<List<VideoResponseDto>> exibirTodos(@RequestParam(value = "search", required = false) String search) {
+        if (search == null || search.isEmpty()) {
+            return ResponseEntity.ok(videoService.exibirTodos());
+        } else {
+            return ResponseEntity.ok(videoService.buscarPorTituloContendo(search));
+        }
     }
 
     @PutMapping("/{id}")
@@ -51,9 +60,8 @@ public class VideoController {
         try {
             videoService.excluir(id);
             return ResponseEntity.ok("Vídeo id= " + id + " excluído com sucesso");
-        } catch (VideoNotFoundException e){
+        } catch (VideoNotFoundException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
         }
-
     }
 }
