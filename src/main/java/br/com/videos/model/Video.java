@@ -1,6 +1,7 @@
 package br.com.videos.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 
 import java.util.Objects;
 
@@ -12,10 +13,13 @@ public class Video {
     @Column(name = "id", nullable = false)
     private Long id;
 
+    @NotBlank
     private String titulo;
 
+    @NotBlank
     private String descricao;
 
+    @NotBlank
     private String url;
 
     public Long getId() {
