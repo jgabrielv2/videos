@@ -1,6 +1,7 @@
 package br.com.videos.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 
 import java.util.Objects;
 
@@ -12,9 +13,27 @@ public class Categoria {
     @Column(name = "id", nullable = false)
     private Long id;
 
+    @NotBlank
     private String titulo;
 
+    @NotBlank
     private String cor;
+
+    public String getTitulo() {
+        return titulo;
+    }
+
+    public void setTitulo(String titulo) {
+        this.titulo = titulo;
+    }
+
+    public String getCor() {
+        return cor;
+    }
+
+    public void setCor(String cor) {
+        this.cor = cor;
+    }
 
     public Long getId() {
         return id;
