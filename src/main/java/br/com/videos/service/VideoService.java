@@ -20,7 +20,7 @@ public class VideoService {
     }
 
     @Transactional
-    public VideoResponseDto criar(VideoInputDto input){
+    public VideoResponseDto criar(VideoInputDto input) {
         Video v = new Video();
         v.setTitulo(input.titulo());
         v.setDescricao(input.descricao());
@@ -35,13 +35,18 @@ public class VideoService {
 
     }
 
-    public VideoResponseDto exibirPorId(Long id){
+    public List<VideoResponseDto> buscarPorTituloContendo(String titulo) {
+        return videoRepository.findByTituloContainsIgnoreCase(titulo).stream().map(
+                v -> new VideoResponseDto(v.getId(), v.getTitulo(), v.getDescricao(), v.getDescricao())).toList();
+    }
+
+    public VideoResponseDto exibirPorId(Long id) {
         Video v = videoRepository.findById(id).orElseThrow(() -> new VideoNotFoundException("Não encontrado"));
         return new VideoResponseDto(v.getId(), v.getTitulo(), v.getDescricao(), v.getUrl());
     }
 
     @Transactional
-    public VideoResponseDto editar(Long id, VideoInputDto input){
+    public VideoResponseDto editar(Long id, VideoInputDto input) {
         Video v = videoRepository.findById(id).orElseThrow(() -> new VideoNotFoundException("Não encontrado"));
         if (input.titulo() != null) {
             v.setTitulo(input.titulo());
